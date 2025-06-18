@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
   const bouton = document.getElementById("telecharger");
-  const url = "https://drive.google.com/uc?export=download&id=1QGAh6kCJf9MvCUfWcC0_6ErlCXSy-tnG";// 🔁 ton lien ici
+  const url = "https://drive.google.com/uc?export=download&id=1y4j_-wlZmVANsfZ3fSfE_HWid6KUSKgh";// 🔁 ton lien ici
 
   function estMobile() {
     return /Android|iPhone|iPad|iPod|Windows Phone/i.test(navigator.userAgent);
