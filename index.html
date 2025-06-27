@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>IP Checker</title>
+  <link rel="icon" href="favicon.png" type="image/png">
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <link rel="stylesheet" href="index.css" />
+  <style>
+    /* Style du bouton */
+
+    .menu-btn:hover {
+      background-color: #45a049;
+      border: blanchedalmond solid 2px;
+    }
+    /* Style du menu déroulant */
+    .menu {
+      display: none;
+      position: absolute;
+      background-color: #f1f1f1;
+      top: 10%;
+      left: 0%;
+      min-width: 160px;
+      z-index: 1;
+      border-radius: 5px;
+      box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    }
+    .menu a {
+      color: black;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+    }
+    .menu a:hover {
+      background-color: #ddd;
+      border: #1e88e5 solid 1px;
+    }
+    .menu-btn:focus + .menu {
+      display: block;
+    }
+    /* Thème sombre général */
+    body {
+  background-color: #121212;
+  color: #f1f1f1;
+  font-family: 'Segoe UI', sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* Supprimer justify-content: center pour que le contenu soit en haut */
+  /* justify-content: center; */
+  min-height: 100vh; /* au lieu de height */
+  margin: 0;
+  padding: 20px;
+}
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+    }
+    p {
+      font-size: 1.2rem;
+      margin-bottom: 30px;
+      text-align: center;
+      max-width: 600px;
+    }
+    .bouton-telechargement {
+      background-color: #1e88e5;
+      color: white;
+      padding: 14px 28px;
+      font-size: 1.1rem;
+      border: none;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+    }
+    .bouton-telechargement:hover {
+      background-color: #1565c0;
+      transform: scale(1.05);
+    }
+    .bouton-telechargement:active {
+      background-color: #0d47a1;
+      transform: scale(0.98);
+    }
+    /* Liste résultats */
+    #response-list {
+      margin-top: 10px;
+      position:absolute;
+      list-style: none;
+      padding: 0;
+      max-height: 200px;
+      overflow-y: auto;
+      width: 320px;
+      background: #222;
+      border-radius: 5px;
+    }
+    #response-list li {
+      padding: 8px 12px;
+      border-bottom: 1px solid #444;
+      cursor: pointer;
+    }
+    #response-list li:hover {
+      background-color: #333;
+    }
+    #response-list li a {
+      color: #1e88e5;
+      text-decoration: none;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Image du logo -->
+  <img src="images/logo.png" alt="Logo de l'application" class="app-logo" />
+
+  <!-- Champ de question -->
+  <div style="margin-top: 40px; text-align: center; position: relative;">
+  <h2>Poser une question à StackOverflow</h2>
+  <input
+    type="text"
+    id="question-input"
+    placeholder="Écris ta question ici"
+    style="padding: 10px; width: 300px;"
+    autocomplete="off"
+  />
+  <ul
+    id="response-list"
+    style="
+      position: absolute;
+      top: 55px;  /* juste sous l'input */
+      left: 50%;
+      transform: translateX(-50%);
+      width: 320px;
+      max-height: 200px;
+      overflow-y: auto;
+      background: #222;
+      border-radius: 5px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      z-index: 100;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    "
+  ></ul>
+  <div
+    id="answer-display"
+    style="
+      margin-top: 10px;
+      max-width: 320px;
+      background: #222;
+      color: #eee;
+      padding: 10px;
+      border-radius: 5px;
+      display: none;
+    "
+  ></div>
+</div>
+
+
+  <!-- Titre de l'application -->
+  <h1>📱 IP Checker</h1>
+
+  <!-- Description -->
+  <p>Appuyez sur le bouton ci-dessous pour télécharger l'application IP Checker. Elle vous permet d'afficher rapidement votre adresse IP et d'autres informations réseau.</p>
+
+  <!-- Bouton de téléchargement -->
+  <a id="telecharger" class="bouton-telechargement" href="#">Télécharger l'application</a>
+
+   <!-- Menu -->
+  <button class="menu-btn" tabindex="0">Menu</button>
+  <div class="menu">
+    <a href="index.html">Accueil</a>
+    <a href="aide.html">Page Aide</a>
+  </div>
+
+
+  <!-- Version de téléchargement -->
+  <h3 class="version">Version Windows 32,64 Bits</h3>
+
+  <!-- Charte IP Checker-->
+   <h1>A quoi sert IP Checker?</h1>
+   <p>IP Checker est une application simple d'utilisation pour les systèmes d'exploitation Windows. Elle offre à nos utilisateurs une expérience simplifiée, notamment pour les débutants, en leur permettant d'afficher rapidement leur adresse IP ainsi que leurs informations de connexion.
+      Elle est particulièrement utile pour ceux qui utilisent un VPN, afin de vérifier si celui-ci fonctionne correctement, s'il est stable, etc.
+      IP Checker permet également d'afficher le nom de la machine, l'adresse IP publique ou locale, et peut être utilisé pour savoir si l’on est connecté à une adresse IP qui bloque ou redirige le trafic réseau. Cela permet de naviguer sur le web en toute sécurité.
+      En clair, l'avantage est de savoir immédiatement à quelle IP vous êtes connecté, et ainsi de vérifier si vous êtes bien protégé. Que vous utilisiez un proxy, un VPN ou tout autre moyen de sécurité basé sur l’adresse IP, IP Checker vous affichera les informations dans un format texte simple et lisible.
+   </p>
+   <h1>Y a t-il un danger avec IP Checker?</h1>
+   <p>Nous plaçons la confidentialité de nos utilisateurs au cœur de notre démarche.
+      IP Checker n’est pas un virus ni un outil malveillant. Nous ne pratiquons aucun piratage, et nous protégeons vos informations au maximum.
+      Le site IP Checker est hébergé sur GitHub Pages et dispose d’un certificat SSL, garantissant la sécurité des données échangées (comme les informations de paiement, etc.).
+      Nous utilisons en effet un serveur qui stocke des logs temporaires, uniquement nécessaires au bon fonctionnement de l'application. Ces logs sont automatiquement supprimés après usage.
+      Sans ces journaux temporaires, l'application ne pourrait pas fonctionner correctement ni vous afficher vos informations de connexion.
+   </p>
+  <!-- Script principal -->
+  <script src="script.js"></script>
+
+</body>
+</html>
+
