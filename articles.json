@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 [
   {
     "titre": "Ton titre ici",
@@ -9,3 +10,16 @@
   }
 ]
 
+=======
+[
+  {
+    "titre": "Ton titre ici",
+    "contenu": "Le contenu de ton article ici"
+  },
+  {
+    "titre": "Un autre titre",
+    "contenu": "Un autre contenu"
+  }
+]
+
+>>>>>>> 34b011f6c5826987e0ca12a6cf2aeee7653fab7f
