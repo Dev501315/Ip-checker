@@ -212,7 +212,7 @@
     }
 
     document.addEventListener('DOMContentLoaded', () => {
-  const estAdmin = localStorage.getItem("admin") === "false";
+  const estAdmin = localStorage.getItem("admin") === "true";
   document.getElementById("auth").style.display = estAdmin ? "none" : "block";
   document.getElementById("admin").style.display = estAdmin ? "block" : "none";
   afficherArticles();
