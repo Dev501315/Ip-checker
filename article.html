@@ -139,130 +139,137 @@
 
   <script>
     
-    const hashAttendu = "798a02cda8af9482b4051326371d7ef163b4cdba8fc754e4e290df1eb6038a21";
+   const hashAttendu = "798a02cda8af9482b4051326371d7ef163b4cdba8fc754e4e290df1eb6038a21";
 
-  async function sha256(text) {
-    const buffer = new TextEncoder().encode(text);
-    const hashBuffer = await crypto.subtle.digest("SHA-256", buffer);
-    return [...new Uint8Array(hashBuffer)].map(b => b.toString(16).padStart(2, '0')).join('');
+async function sha256(text) {
+  const buffer = new TextEncoder().encode(text);
+  const hashBuffer = await crypto.subtle.digest("SHA-256", buffer);
+  return [...new Uint8Array(hashBuffer)].map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+async function checkPassword() {
+  const input = document.getElementById("pwd").value;
+  const hash = await sha256(input);
+  if (hash === hashAttendu) {
+    localStorage.setItem("admin", "true");
+    location.reload();
+  } else {
+    alert("Mot de passe incorrect.");
   }
+}
 
-  async function checkPassword() {
-    const input = document.getElementById("pwd").value;
-    const hash = await sha256(input);
-    if (hash === hashAttendu) {
-      localStorage.setItem("admin", "true");
-      location.reload(); // recharge pour afficher la vue admin
-    } else {
-      alert("Mot de passe incorrect.");
-    }
-  }
+function afficherArticlesAdmin() {
+  const container = document.getElementById('articles-admin');
+  const articles = JSON.parse(localStorage.getItem("articles") || "[]");
+  container.innerHTML = '';
 
-  function afficherArticlesAdmin() {
-    const articlesDivs = document.querySelectorAll('.articles');
-    const articles = JSON.parse(localStorage.getItem("articles") || "[]");
-    articlesDivs.forEach(div => div.innerHTML = '');
-    articles.forEach((art, index) => {
-      const div = document.createElement('div');
-      div.className = 'article';
-      div.innerHTML = `
-        <h3>${art.titre}</h3>
-        <p>${art.contenu.replace(/\n/g, '<br>')}</p>
-        ${
-          localStorage.getItem("admin") === "true"
-            ? `
-        <button onclick="modifierArticle(${index})">✏️ Modifier</button>
-        <button onclick="supprimerArticle(${index})">🗑️ Supprimer</button>
-        `
-            : ""
-        }
-      `;
-      articlesDivs.forEach(adiv => adiv.appendChild(div.cloneNode(true)));
-    });
-  }
+  articles.forEach((art, index) => {
+    const div = document.createElement('div');
+    div.className = 'article';
+    div.innerHTML = `
+      <h3>${art.titre}</h3>
+      <p>${art.contenu.replace(/\n/g, '<br>')}</p>
+      <button onclick="modifierArticle(${index})">✏️ Modifier</button>
+      <button onclick="supprimerArticle(${index})">🗑️ Supprimer</button>
+    `;
+    container.appendChild(div);
+  });
+}
 
-  function supprimerArticle(index) {
-    let articles = JSON.parse(localStorage.getItem("articles") || "[]");
-    articles.splice(index, 1);
+function supprimerArticle(index) {
+  let articles = JSON.parse(localStorage.getItem("articles") || "[]");
+  articles.splice(index, 1);
+  localStorage.setItem("articles", JSON.stringify(articles));
+  afficherArticlesAdmin();
+}
+
+function modifierArticle(index) {
+  const articles = JSON.parse(localStorage.getItem("articles") || "[]");
+  const article = articles[index];
+
+  const newTitre = prompt("Modifier le titre :", article.titre);
+  const newContenu = prompt("Modifier le contenu :", article.contenu);
+
+  if (newTitre !== null && newContenu !== null) {
+    articles[index] = { titre: newTitre.trim(), contenu: newContenu.trim() };
     localStorage.setItem("articles", JSON.stringify(articles));
     afficherArticlesAdmin();
   }
+}
 
-  function modifierArticle(index) {
-    const articles = JSON.parse(localStorage.getItem("articles") || "[]");
-    const article = articles[index];
+function logout() {
+  localStorage.removeItem("admin");
+  location.reload();
+}
 
-    const newTitre = prompt("Modifier le titre :", article.titre);
-    const newContenu = prompt("Modifier le contenu :", article.contenu);
-
-    if (newTitre !== null && newContenu !== null) {
-      articles[index] = { titre: newTitre.trim(), contenu: newContenu.trim() };
-      localStorage.setItem("articles", JSON.stringify(articles));
-      afficherArticlesAdmin();
-    }
+function copierTousLesArticlesEnJson() {
+  const articles = JSON.parse(localStorage.getItem("articles") || "[]");
+  if (!articles.length) {
+    alert("Aucun article à copier.");
+    return;
   }
+  const json = JSON.stringify(articles, null, 2);
+  navigator.clipboard.writeText(json)
+    .then(() => alert("✅ Tous les articles copiés au format JSON !"))
+    .catch(() => alert("❌ Échec de la copie."));
+}
 
-  function logout() {
-    localStorage.removeItem("admin");
-    location.reload();
-  }
-
-  function copierTousLesArticlesEnJson() {
-    const articles = JSON.parse(localStorage.getItem("articles") || "[]");
-    if (!articles.length) {
-      alert("Aucun article à copier.");
-      return;
-    }
-    const json = JSON.stringify(articles, null, 2);
-    navigator.clipboard.writeText(json)
-      .then(() => alert("✅ Tous les articles copiés au format JSON !"))
-      .catch(() => alert("❌ Échec de la copie."));
-  }
-
-  document.addEventListener('DOMContentLoaded', () => {
-    const estAdmin = localStorage.getItem("admin") === "true";
-    document.getElementById("auth").style.display = estAdmin ? "none" : "block";
-    document.getElementById("admin").style.display = estAdmin ? "block" : "none";
-
-    if (estAdmin) {
-      afficherArticlesAdmin();
-
-      const form = document.getElementById("articleForm");
-      if (form) {
-        form.addEventListener("submit", function(e) {
-          e.preventDefault();
-          const titre = document.getElementById("titre").value.trim();
-          const contenu = document.getElementById("contenu").value.trim();
-
-          if (titre && contenu) {
-            const articles = JSON.parse(localStorage.getItem("articles") || "[]");
-            articles.unshift({ titre, contenu });
-            localStorage.setItem("articles", JSON.stringify(articles));
-            afficherArticlesAdmin();
-            this.reset();
-          } else {
-            alert("Veuillez remplir tous les champs.");
-          }
-        });
-      }
-    }
-
-    // Chargement des articles publics depuis articles.json
-    fetch('https://ip-checker-913b6.web.app/articles.json')
-      .then(res => res.json())
-      .then(articles => {
-        const container = document.getElementById('articles-json');
-        if (!container) return;
-        articles.forEach(article => {
-          const div = document.createElement('div');
-          div.className = 'article';
-          div.innerHTML = `<h3>${article.titre}</h3><p>${article.contenu.replace(/\n/g, '<br>')}</p>`;
-          container.appendChild(div);
-        });
-      })
-      .catch(err => console.error("Erreur de chargement des articles :", err));
+// Fonction pour afficher les articles publics stylés
+function afficherArticlesPublics(articles) {
+  const container = document.getElementById('articles-json');
+  container.innerHTML = '';
+  articles.forEach(article => {
+    const div = document.createElement('div');
+    div.className = 'article';
+    div.style.backgroundColor = '#292929';
+    div.style.border = '1px solid #555';
+    div.style.padding = '12px';
+    div.style.margin = '8px 0';
+    div.style.borderRadius = '6px';
+    div.innerHTML = `
+      <h3 style="color:#66ccff;">${article.titre}</h3>
+      <p style="line-height:1.5;">${article.contenu.replace(/\n/g, '<br>')}</p>
+    `;
+    container.appendChild(div);
   });
-</script>
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const estAdmin = localStorage.getItem("admin") === "true";
+
+  document.getElementById("auth").style.display = estAdmin ? "none" : "block";
+  document.getElementById("admin").style.display = estAdmin ? "block" : "none";
+
+  if (estAdmin) {
+    afficherArticlesAdmin();
+
+    const form = document.getElementById("articleForm");
+    if (form) {
+      form.addEventListener("submit", function(e) {
+        e.preventDefault();
+        const titre = document.getElementById("titre").value.trim();
+        const contenu = document.getElementById("contenu").value.trim();
+
+        if (titre && contenu) {
+          const articles = JSON.parse(localStorage.getItem("articles") || "[]");
+          articles.unshift({ titre, contenu });
+          localStorage.setItem("articles", JSON.stringify(articles));
+          afficherArticlesAdmin();
+          this.reset();
+        } else {
+          alert("Veuillez remplir tous les champs.");
+        }
+      });
+    }
+  }
+
+  // Chargement des articles publics depuis le JSON externe
+  fetch('https://ip-checker-913b6.web.app/articles.json')
+    .then(res => res.json())
+    .then(articles => afficherArticlesPublics(articles))
+    .catch(err => console.error("Erreur de chargement des articles :", err));
+});
+  </script>
 <!-- Script principal -->
 <script src="article.js"></script>
 </body>
