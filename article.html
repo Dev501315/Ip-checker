@@ -237,8 +237,7 @@
   }
 });
 
-      // Chargement du fichier articles.json
-     fetch('https://dev501315.github.io/Ip-checker/articles.json')
+      fetch('https://dev501315.github.io/Ip-checker/articles.json')
   .then(res => res.json())
   .then(articles => {
     const container = document.getElementById('articles-json');
@@ -248,7 +247,9 @@
       div.innerHTML = `<h3>${article.titre}</h3><p>${article.contenu}</p>`;
       container.appendChild(div);
     });
-  });
+  })
+  .catch(err => console.error("Erreur de chargement des articles :", err));
+
 
 </script>
 
