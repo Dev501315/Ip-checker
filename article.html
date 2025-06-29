@@ -118,7 +118,7 @@
         <p style="font-style: italic; color: gray;">Vous pouvez consulter les articles ci-dessous sans être connecté.</p>
 
         <h2>📄 Articles publiés</h2>
-        <div class="articles"></div>
+        <div class="articles.json"></div>
       </div>
 
       <!-- Zone admin -->
@@ -132,7 +132,7 @@
         </form>
 
         <h2>📄 Articles publiés</h2>
-        <div class="articles"></div>
+        <div class="articles.json"></div>
 
       </div>
   </main>
@@ -171,7 +171,7 @@
           <p>${art.contenu.replace(/\n/g, '<br>')}</p>
             
              ${
-            localStorage.getItem("admin") === "false"
+            localStorage.getItem("admin") === "true"
               ? `
           <button onclick="modifierArticle(${index})">✏️ Modifier</button>
           <button onclick="supprimerArticle(${index})">🗑️ Supprimer</button>
