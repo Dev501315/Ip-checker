@@ -119,7 +119,6 @@
 
         <h2>📄 Articles publiés</h2>
         <div class="articles"></div>
-        <div id="articles-json"></div>
       </div>
 
       <!-- Zone admin -->
@@ -134,7 +133,6 @@
 
         <h2>📄 Articles publiés</h2>
         <div class="articles"></div>
-        <div id="articles-json"></div>
 
       </div>
   </main>
@@ -173,7 +171,7 @@
           <p>${art.contenu.replace(/\n/g, '<br>')}</p>
             
              ${
-            localStorage.getItem("admin") === "true"
+            localStorage.getItem("admin") === "false"
               ? `
           <button onclick="modifierArticle(${index})">✏️ Modifier</button>
           <button onclick="supprimerArticle(${index})">🗑️ Supprimer</button>
@@ -214,7 +212,7 @@
     }
 
     document.addEventListener('DOMContentLoaded', () => {
-  const estAdmin = localStorage.getItem("admin") === "true";
+  const estAdmin = localStorage.getItem("admin") === "false";
   document.getElementById("auth").style.display = estAdmin ? "none" : "block";
   document.getElementById("admin").style.display = estAdmin ? "block" : "none";
   afficherArticles();
