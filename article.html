@@ -204,13 +204,12 @@ function logout() {
 
 function copierTousLesArticlesEnJson() {
   const articles = JSON.parse(localStorage.getItem("articles") || "[]");
-  if (!articles.length) {
-    alert("Aucun article à copier.");
-    return;
-  }
-  const json = JSON.stringify(articles, null, 2);
-  navigator.clipboard.writeText(json)
-    .then(() => alert("✅ Tous les articles copiés au format JSON !"))
+  const contenuACopier = articles
+    .map(art => art.copierSeulement || `${art.titre}\n${art.contenu}`)
+    .join("\n\n---\n\n");
+    
+  navigator.clipboard.writeText(contenuACopier)
+    .then(() => alert("✅ Texte copié !"))
     .catch(() => alert("❌ Échec de la copie."));
 }
 
@@ -247,12 +246,14 @@ document.addEventListener('DOMContentLoaded', () => {
     if (form) {
       form.addEventListener("submit", function(e) {
         e.preventDefault();
+
         const titre = document.getElementById("titre").value.trim();
         const contenu = document.getElementById("contenu").value.trim();
 
         if (titre && contenu) {
+          const texteCopiable = `Titre : ${titre}\nContenu : ${contenu}`;
           const articles = JSON.parse(localStorage.getItem("articles") || "[]");
-          articles.unshift({ titre, contenu });
+          articles.unshift({ titre, contenu, copierSeulement: texteCopiable });
           localStorage.setItem("articles", JSON.stringify(articles));
           afficherArticlesAdmin();
           this.reset();
@@ -269,7 +270,8 @@ document.addEventListener('DOMContentLoaded', () => {
     .then(articles => afficherArticlesPublics(articles))
     .catch(err => console.error("Erreur de chargement des articles :", err));
 });
-  </script>
+
+</script>
 <!-- Script principal -->
 <script src="article.js"></script>
 </body>
