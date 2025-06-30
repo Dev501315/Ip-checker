@@ -1,6 +1,54 @@
-{
-  "titre": "Titre visible sur la page",
-  "contenu": "Contenu visible sur la page",
-  "copierSeulement": "Ceci est le vrai texte que je veux copier en JSON"
-}
+[
+  {
+    "numero": 1,
+    "titre": "Qu’est-ce qu’une adresse IP ?",
+    "contenu": "Une adresse IP (Internet Protocol) est une série de chiffres qui identifie de manière unique un appareil connecté à un réseau informatique, notamment à Internet. Elle fonctionne comme une adresse postale, permettant d’envoyer et de recevoir des informations entre différents appareils. Chaque fois que vous naviguez sur Internet, votre adresse IP est utilisée pour acheminer les données vers votre appareil. Il existe deux versions principales : IPv4 et IPv6."
+  },
+  {
+    "numero": 2,
+    "titre": "Différence entre IPv4 et IPv6",
+    "contenu": "IPv4 est la version la plus courante, utilisant un format de quatre nombres séparés par des points (ex. 192.168.1.1). Cette version offre environ 4 milliards d’adresses, un chiffre désormais insuffisant face à l’augmentation du nombre d’appareils connectés. IPv6, la nouvelle version, utilise un format hexadécimal plus long, offrant un nombre quasi illimité d’adresses IP, ainsi que des améliorations en termes de sécurité et de gestion du réseau."
+  },
+  {
+    "numero": 3,
+    "titre": "Comment cacher son adresse IP ?",
+    "contenu": "Cacher son adresse IP est une pratique visant à protéger sa vie privée en ligne. Plusieurs solutions existent, notamment l’utilisation d’un VPN (Virtual Private Network), qui redirige votre connexion via un serveur tiers, masquant ainsi votre véritable adresse IP. D’autres méthodes incluent l’usage de proxies ou du réseau Tor, qui offrent différents niveaux d’anonymat selon vos besoins."
+  },
+  {
+    "numero": 4,
+    "titre": "À quoi sert une adresse IP ?",
+    "contenu": "L’adresse IP permet d’identifier un appareil sur un réseau et de faciliter la communication entre plusieurs appareils. Sans adresse IP, un appareil ne pourrait pas envoyer ni recevoir de données sur Internet. Elle sert aussi à localiser géographiquement, plus ou moins précisément, l’utilisateur, ce qui est utile pour des services comme la géolocalisation des contenus ou la sécurité."
+  },
+  {
+    "numero": 5,
+    "titre": "IPv4 : avantages et limites",
+    "contenu": "IPv4 est la version historique et la plus répandue. Sa simplicité et sa compatibilité avec la majorité des équipements ont favorisé son adoption massive. Cependant, le nombre limité d’adresses disponibles et la nécessité de techniques comme le NAT (traduction d’adresses réseau) pour pallier cette limite sont ses principales contraintes, ce qui a conduit à l’émergence d’IPv6."
+  },
+  {
+    "numero": 6,
+    "titre": "IPv6 : le futur des adresses IP",
+    "contenu": "IPv6 a été conçu pour résoudre les problèmes d’IPv4. Avec ses adresses beaucoup plus longues, il offre une quantité quasiment illimitée d’identifiants uniques. En plus d’augmenter l’espace d’adressage, IPv6 simplifie la gestion des réseaux, améliore la sécurité grâce à des fonctionnalités intégrées, et facilite la connexion directe entre appareils sans besoin de NAT."
+  },
+  {
+    "numero": 7,
+    "titre": "Comment trouver son adresse IP ?",
+    "contenu": "Il est facile de connaître son adresse IP publique en utilisant des sites web dédiés ou via les paramètres réseau de votre appareil. Sur Windows, la commande ipconfig dans l’invite de commande affiche votre IP locale, tandis que des services en ligne vous montrent votre IP publique. Cela peut être utile pour configurer des services réseau ou vérifier votre anonymat."
+  },
+  {
+    "numero": 8,
+    "titre": "Pourquoi mon adresse IP change-t-elle ?",
+    "contenu": "La plupart des fournisseurs d’accès à Internet attribuent des adresses IP dynamiques, qui peuvent changer à chaque connexion ou périodiquement. Cette rotation aide à optimiser l’utilisation des adresses disponibles. Pour une IP fixe (statique), souvent nécessaire pour des serveurs ou services professionnels, il faut en faire la demande auprès du fournisseur."
+  },
+  {
+    "numero": 9,
+    "titre": "Sécurité et adresse IP",
+    "contenu": "Votre adresse IP peut être exploitée pour tracer vos activités en ligne ou cibler des attaques informatiques. Protéger son IP, via un VPN ou un firewall, est un bon réflexe pour préserver sa vie privée et sa sécurité. De plus, comprendre comment fonctionne l’adressage IP permet d’éviter des erreurs de configuration qui pourraient exposer votre réseau à des risques."
+  },
+  {
+    "numero": 10,
+    "titre": "Le rôle des serveurs DNS",
+    "contenu": "Les serveurs DNS traduisent les noms de domaine (comme www.example.com) en adresses IP que les ordinateurs peuvent comprendre. Sans DNS, il faudrait mémoriser des séries de chiffres complexes pour chaque site web. Le bon fonctionnement des serveurs DNS est essentiel pour la navigation sur Internet et la rapidité d’accès aux sites."
+  }
+]
+
 
